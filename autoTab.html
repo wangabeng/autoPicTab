@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Document</title>
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+#container{
+	margin:10px auto;
+	width:320px;
+	height:130px;
+	border:1px solid gray;
+	padding:5px;
+}
+#header{
+	width:324px;
+	height:38px;
+}
+.clearfix{
+	zoom:1;
+}
+.clearfix:after{
+	content:"";
+	clear:both;
+	display:block;
+	height:0;
+	line-height:0;
+	visibility:hidden;
+	font-size:0;
+}
+#nav{
+	width:300px;
+	list-style:none;
+}
+#nav li{
+	list-style:none;
+	float:left;
+	margin-right:5px;
+	padding:5px;
+	background:#d0d0d0;
+}
+
+#main img{
+	width:200px;
+	height:90px;
+	float:left;
+}
+#mainRight{
+	width:108px;
+	height:90px;
+	float:left;
+	margin-left:10px;
+}
+#mainRight li{
+	width:108px;
+	height:26px;
+	line-height:26px;
+	list-style:none;
+	background:#d0d0d0;
+	margin-bottom:5px;
+
+}
+#nav .activeTop{
+	background:#006699;
+}
+#mainRight .activeBott{
+	background:#6666ff;
+}
+</style>
+</head>
+<script>
+window.onload=function(){
+	var topNav=document.getElementById("nav");
+	var aTopLi=topNav.getElementsByTagName("li");
+
+	var bottNav=document.getElementById("mainRight");
+	var aBottLi=bottNav.getElementsByTagName("li");
+
+	var oPic=document.getElementById("oPic");
+	//alert(aBottLi.length);
+	//图片加载后 每X毫秒切换一次 1 图片更换 2 图片标题背景色更换到当前图片的index 
+	var timer=null;
+	var num=0;
+
+
+	timer=setInterval(function(){
+		oPic.src=num%6+1+".jpg";//显示图片
+		//给对应图片的标题添加文字及class .activeBott
+		if (num>0)//清除所有标题样式
+		{
+			for (var i=0;i<aBottLi.length ; i++)
+			{
+				aBottLi[i].className="";
+			}
+		}
+		aBottLi[num%3].className="activeBott";
+
+		//num取模为0时 标题为0 1 2 加1；num取模为3时 标题为3 4 5 加1；
+		if (num%6==0||num%6==3)
+		{ 
+			var index=num%6;
+			for (var i=0;i<aBottLi.length ; i++)
+			{
+				aBottLi[i].innerHTML="图片"+(index+1);
+				index++;
+			}
+		}
+		
+		//设置顶部标题样式
+		var flag=0;//设置现在默认的激活的顶部标题为第0个 就是最左边的
+		if (num%6==0)
+		{
+			aTopLi[1].className="";
+			aTopLi[0].className="activeTop";
+		}
+		if (num%6==3)
+		{
+			aTopLi[0].className="";
+			aTopLi[1].className="activeTop";
+		}
+
+		num++;
+	},1000);
+};
+</script>
+<body>
+<div id="container">
+	<div id="header">
+		<ul id="nav"class="clearfix">
+			<li class="activeTop">菜单1</li>
+			<li>菜单2</li>
+		</ul>
+	</div>
+
+	<div id="main" class="clearfix">
+		<img id="oPic" src="1.jpg">
+		<ul id="mainRight">
+			<li class="activeBott">图片1</li>
+			<li>图片2</li>
+			<li>图片3</li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>
